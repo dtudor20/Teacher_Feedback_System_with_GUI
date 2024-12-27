@@ -15,7 +15,7 @@ project("Cmake1")
 set(SFML_DIR "C:/sfml/SFML-2.6.2")
 
 # Add source to this project's executable.
-add_executable(Cmake1 "Main.cpp" "Main.h" "TrieTree.cpp" "TrieTree.h" "user.cpp" "user.h" "teacher.cpp" "teacher.h" "review.cpp" "review.h" "Button.h" "Button.cpp")
+add_executable(Cmake1 "Main.cpp" "Main.h" "TrieTree.cpp" "TrieTree.h" "user.cpp" "user.h" "teacher.cpp" "teacher.h" "review.cpp" "review.h" "TextButton.h" "TextButton.cpp" "Button.h" "Button.cpp")
 
 # Include SFML directories
 target_include_directories(Cmake1 PRIVATE ${SFML_DIR}/include)

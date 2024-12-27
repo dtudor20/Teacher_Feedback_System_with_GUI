@@ -1,5 +1,7 @@
 #include "teacher.h"
-//#include "user.h"
+#include "Button.h"
+#include "TextButton.h"
+extern sf::RenderWindow window;
 
 // Copy constructor
 TEACHER::TEACHER(const TEACHER& other) : name(other.name), nr_reviews(other.nr_reviews) {
@@ -38,25 +40,40 @@ TEACHER& TEACHER::operator=(const TEACHER& other) {
     return *this;
 }
 
-
-REVIEW TEACHER::add_review()
-{
+REVIEW TEACHER::add_review() {
     if (this == nullptr) {
-        cout << "Error: TEACHER object is not initialized." << endl;
+        std::cout << "Error: TEACHER object is not initialized." << std::endl;
         //return nullptr;
     }
 
-    string review_text;
-    int stars;
-    cout << "Enter your review: ";
-    cin.ignore();
-    getline(cin, review_text);
-    cout << "Enter the number of stars (0-5): ";
-    cin >> stars;
+    sf::Event event;
+    TEXTINPUTBOX reviewBox(100, 100, 600, 50, "Enter your review");
+    TEXTINPUTBOX starsBox(100, 200, 600, 50, "Enter the number of stars (0-5)");
+    BUTTON nextButton(100, 300, 600, 50, "Next");
+
+    while (true) {
+        while (window.pollEvent(event)) {
+            // Close window: exit
+            if (event.type == sf::Event::Closed)
+                window.close();
+            reviewBox.handleEvent(event, window);
+            starsBox.handleEvent(event, window);
+            nextButton.handleEvent(event, window);
+        }
+        if (nextButton.is_selected)
+            break;
+        window.clear(sf::Color::Black);
+        reviewBox.draw(window);
+        starsBox.draw(window);
+        nextButton.draw(window);
+        window.display();
+    }
+
+    std::string review_text = reviewBox.input;
+    int stars = std::stoi(starsBox.input);
 
     REVIEW* new_reviews = new REVIEW[nr_reviews + 1];
-    for (int j = 0; j < nr_reviews; ++j)
-    {
+    for (int j = 0; j < nr_reviews; ++j) {
         new_reviews[j] = reviews[j];
     }
     new_reviews[nr_reviews] = REVIEW(review_text, stars);
@@ -65,21 +82,43 @@ REVIEW TEACHER::add_review()
     reviews = new_reviews;
     nr_reviews++;
 
-    cout << "Review added successfully.\n";
+    std::cout << "Review added successfully.\n";
     return reviews[nr_reviews - 1];
 }
 
+void TEACHER::get_reviews() {
+    sf::Event event;
+    BUTTON nextButton(100, 500, 600, 50, "Next");
 
-
-
-void TEACHER::get_reviews()
-{
     int it = 1;
-    for (int index2 = 0; index2 < this->nr_reviews; index2++)
-    {
-        cout << "Review nr " << it << ":\n";
-        cout << this->reviews[index2].rev << endl;
-        cout << "Number of stars received is :" << this->reviews[index2].stars << endl << endl;
+    for (int index2 = 0; index2 < this->nr_reviews; index2++) {
+        while (true) {
+            while (window.pollEvent(event)) {
+                // Close window: exit
+                if (event.type == sf::Event::Closed)
+                    window.close();
+                nextButton.handleEvent(event, window);
+            }
+            if (nextButton.is_selected)
+                break;
+            window.clear(sf::Color::Black);
+
+            sf::Font font;
+            if (!font.loadFromFile("roboto.ttf")) {
+                // Handle error
+            }
+
+            sf::Text reviewText;
+            reviewText.setFont(font);
+            reviewText.setString("Review nr " + std::to_string(it) + ":\n" + this->reviews[index2].rev + "\nNumber of stars received is :" + std::to_string(this->reviews[index2].stars));
+            reviewText.setCharacterSize(24);
+            reviewText.setFillColor(sf::Color::White);
+            reviewText.setPosition(100, 100);
+
+            window.draw(reviewText);
+            nextButton.draw(window);
+            window.display();
+        }
         it++;
     }
 }

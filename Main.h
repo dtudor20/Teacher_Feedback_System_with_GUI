@@ -6,6 +6,7 @@
 #include <SFML/Graphics.hpp>
 #include "TrieTree.h"
 #include "teacher.h"
+#include "TextButton.h"
 #include "Button.h"
-sf::RenderWindow window;
+extern sf::RenderWindow window;
 // TODO: Reference additional headers your program requires here.

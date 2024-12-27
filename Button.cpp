@@ -1,20 +1,36 @@
 #include "Button.h"
+#include <iostream>
+BUTTON::BUTTON(float x, float y, float width, float height, const std::string& label)
+{
+    buttonShape.setSize(sf::Vector2f(width, height));
+    buttonShape.setPosition(x, y);
+    buttonShape.setFillColor(sf::Color::Blue);
 
-void TextInputBox::handleEvent(sf::Event event) {
-    if (event.type == sf::Event::TextEntered) {
-        if (event.text.unicode == '\b') {
-            if (!input.empty()) {
-                input.pop_back();
-            }
+    if (!font.loadFromFile("roboto.ttf")) {
+        // Handle error
+    }
+
+    buttonText.setFont(font);
+    buttonText.setString(label);
+    buttonText.setCharacterSize(24);
+    buttonText.setFillColor(sf::Color::White);
+    buttonText.setPosition(
+        x + (width - buttonText.getLocalBounds().width) / 2,
+        y + (height - buttonText.getLocalBounds().height) / 2
+    );
+}
+
+void BUTTON::handleEvent(const sf::Event& event, const sf::RenderWindow& window) {
+    if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
+        sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+        if (buttonShape.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+            is_selected = !is_selected;
+            std::cout << "Apasat";
         }
-        else if (event.text.unicode < 128) {
-            input += static_cast<char>(event.text.unicode);
-        }
-        text.setString(input);
     }
 }
 
-void TextInputBox::draw(sf::RenderWindow& window) {
-    window.draw(box);
-    window.draw(text);
+void BUTTON::draw(sf::RenderWindow& window) {
+    window.draw(buttonShape);
+    window.draw(buttonText);
 }
