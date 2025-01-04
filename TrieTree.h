@@ -21,3 +21,4 @@ TrieNode* removeUser(TrieNode* root, const std::string& username, int depth = 0)
 TrieNode* removeTeacher(TrieNode* root, const std::string& username, int depth = 0);
 bool isEmpty(TrieNode* root);
 extern struct TrieNode* root;
+extern struct TrieNode* userTrie;

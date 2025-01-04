@@ -25,7 +25,7 @@ void BUTTON::handleEvent(const sf::Event& event, const sf::RenderWindow& window)
         sf::Vector2i mousePos = sf::Mouse::getPosition(window);
         if (buttonShape.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
             is_selected = !is_selected;
-            std::cout << "Apasat";
+            //std::cout << "Apasat";
         }
     }
 }

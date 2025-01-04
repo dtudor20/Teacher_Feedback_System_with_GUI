@@ -47,9 +47,9 @@ REVIEW TEACHER::add_review() {
     }
 
     sf::Event event;
-    TEXTINPUTBOX reviewBox(100, 100, 600, 50, "Enter your review");
-    TEXTINPUTBOX starsBox(100, 200, 600, 50, "Enter the number of stars (0-5)");
-    BUTTON nextButton(100, 300, 600, 50, "Next");
+    TEXTINPUTBOX reviewBox(100, 100, 600, 250, "Enter your review");
+    TEXTINPUTBOX starsBox(100, 400, 600, 50, "Enter the number of stars (0-5)");
+    BUTTON nextButton(100, 500, 600, 50, "Next");
 
     while (true) {
         while (window.pollEvent(event)) {
@@ -60,8 +60,17 @@ REVIEW TEACHER::add_review() {
             starsBox.handleEvent(event, window);
             nextButton.handleEvent(event, window);
         }
-        if (nextButton.is_selected)
+        
+        if (nextButton.is_selected && !starsBox.input.empty() && std::stoi(starsBox.input) >= 0 && std::stoi(starsBox.input) <= 5)
             break;
+        if (starsBox.is_selected)
+        {
+            reviewBox.is_selected = false; nextButton.is_selected = false;
+        }
+        if (reviewBox.is_selected)
+        {
+            starsBox.is_selected = false; nextButton.is_selected = false;
+        }
         window.clear(sf::Color::Black);
         reviewBox.draw(window);
         starsBox.draw(window);

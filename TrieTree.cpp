@@ -2,6 +2,7 @@
 #include "user.h"
 using namespace std;
 struct TrieNode* root = getNode();
+TrieNode* userTrie = getNode();
 // Returns new trie node (initialized to NULLs)
 struct TrieNode* getNode(void)
 {

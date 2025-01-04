@@ -64,5 +64,4 @@ public:
 private:
     void menu() override;
 };
-
 //inca o clasa de manager unde sunt definiti userii
