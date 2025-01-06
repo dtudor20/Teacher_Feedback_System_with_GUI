@@ -3,7 +3,6 @@
 #include "TextButton.h"
 int nr_teachers = 0;
 int GUEST_USER::nr_users = 2;
-//TrieNode* userTrie = getNode();
 
 GUEST_USER::GUEST_USER(const GUEST_USER& other) : username(other.username), password(other.password) {}
 
@@ -119,6 +118,8 @@ void GUEST_USER::log() {
             {
                 menu();
             }
+            int type = 0;
+            GUEST_USER* newUser;
             if (createAccountButton.is_selected) {
                 TEXTINPUTBOX passwordBox(100, 100, 600, 50, "Enter the account password");
                 while (true) {
@@ -153,7 +154,7 @@ void GUEST_USER::log() {
 
                 BUTTON teacherButton(100, 100, 600, 50, "Teacher");
                 BUTTON studentButton(100, 200, 600, 50, "Student");
-                int type = 0;
+
                 while (true) {
                     while (window.pollEvent(event)) {
                         // Close window: exit
@@ -177,9 +178,27 @@ void GUEST_USER::log() {
                     window.display();
                 }
 
-                GUEST_USER* newUser;
                 if (type == 1) {
                     newUser = new TEACHER_USER(passn, usern);
+                    // Cast newUser to TEACHER_USER to access teacher_name
+                    TEACHER_USER* teacherUser = dynamic_cast<TEACHER_USER*>(newUser);
+                    TEXTINPUTBOX teacher_name(100, 100, 600, 50, "Enter your real name students will search you by:");
+                    while (true) {
+                        while (window.pollEvent(event)) {
+                            // Close window: exit
+                            if (event.type == sf::Event::Closed)
+                                window.close();
+                            teacher_name.handleEvent(event, window);
+                            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter && !teacher_name.input.empty())
+                                break;
+                        }
+                        if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter)
+                            break;
+                        window.clear(sf::Color::Black);
+                        teacher_name.draw(window);
+                        window.display();
+                    }
+                    teacherUser->teacher_name = teacher_name.input;
                 }
                 else if (type == 2) {
                     newUser = new STUDENT_USER(passn, usern);
@@ -187,9 +206,8 @@ void GUEST_USER::log() {
                 insertUser(userTrie, newUser);
                 GUEST_USER::nr_users++;
                 newUser->menu();
+
             }
-
-
         }
     }
     else {
@@ -305,7 +323,7 @@ void TEACHER_USER::menu() {
         log();
     }
     else if (seeReviewsButton.is_selected) {
-        TEACHER* p = search_teacher(username);
+        TEACHER* p = search_teacher(teacher_name);
         if (p != nullptr) {
             p->get_reviews();
         }
@@ -321,10 +339,17 @@ void TEACHER_USER::menu() {
 }
 
 void TEACHER_USER::delete_teacher() {
-    removeTeacher(root, username);
-    nr_teachers--;
-    std::cout << "Teacher deletion successful!\n";
+    TEACHER* teacher_to_delete = searchTeacher(root, teacher_name);
+    if (teacher_to_delete != nullptr) {
+        removeTeacher(root, teacher_name);
+        nr_teachers--;
+        std::cout << "Teacher deletion successful!\n";
+    }
+    else {
+        std::cout << "Teacher not found\n";
+    }
 }
+
 
 void STUDENT_USER::menu() {
     BUTTON logOutButton(100, 100, 600, 50, "Log out");

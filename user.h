@@ -34,6 +34,7 @@ public:
         : GUEST_USER(password, username) {
     }
     void delete_teacher();
+    string teacher_name;
 private:
     void menu() override;
 };

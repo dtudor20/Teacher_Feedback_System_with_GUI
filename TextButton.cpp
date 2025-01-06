@@ -18,7 +18,7 @@ void TEXTINPUTBOX::handleEvent(const sf::Event event, const sf::RenderWindow& wi
         }
         
         text.setString(input);
-        if (input.size() % 45==0)
+        if (input.size() % 45==0 && !input.empty())
         {
             input.push_back('\n');
         }

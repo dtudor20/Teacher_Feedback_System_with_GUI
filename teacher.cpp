@@ -91,7 +91,10 @@ REVIEW TEACHER::add_review() {
     reviews = new_reviews;
     nr_reviews++;
 
+    average_stars = ((average_stars * (nr_reviews - 1)) + stars) / nr_reviews;
+
     std::cout << "Review added successfully.\n";
+
     return reviews[nr_reviews - 1];
 }
 
@@ -99,8 +102,9 @@ void TEACHER::get_reviews() {
     sf::Event event;
     BUTTON nextButton(100, 500, 600, 50, "Next");
 
-    int it = 1;
-    for (int index2 = 0; index2 < this->nr_reviews; index2++) {
+    //cout << nr_reviews;
+    for (int it = 0; it < this->nr_reviews; it++) {
+        cout << it;
         while (true) {
             while (window.pollEvent(event)) {
                 // Close window: exit
@@ -108,8 +112,10 @@ void TEACHER::get_reviews() {
                     window.close();
                 nextButton.handleEvent(event, window);
             }
-            if (nextButton.is_selected)
+            if (nextButton.is_selected) {
+                nextButton.is_selected = false;
                 break;
+            }
             window.clear(sf::Color::Black);
 
             sf::Font font;
@@ -119,7 +125,7 @@ void TEACHER::get_reviews() {
 
             sf::Text reviewText;
             reviewText.setFont(font);
-            reviewText.setString("Review nr " + std::to_string(it) + ":\n" + this->reviews[index2].rev + "\nNumber of stars received is :" + std::to_string(this->reviews[index2].stars));
+            reviewText.setString("Average nr of stars is " + std::to_string(average_stars) + "\nReview nr " + std::to_string(it+1) + ":\n" + this->reviews[it].rev + "\nNumber of stars received is :" + std::to_string(this->reviews[it].stars));
             reviewText.setCharacterSize(24);
             reviewText.setFillColor(sf::Color::White);
             reviewText.setPosition(100, 100);
@@ -128,6 +134,5 @@ void TEACHER::get_reviews() {
             nextButton.draw(window);
             window.display();
         }
-        it++;
     }
 }
