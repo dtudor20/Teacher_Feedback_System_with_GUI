@@ -26,7 +26,8 @@ public:
 		delete[] reviews;
 	}
 	string name;
-	double average_stars=0;
+	double average_stars=0.0;
+
 private:
 	REVIEW* reviews;
 	int nr_reviews;
