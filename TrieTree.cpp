@@ -1,4 +1,4 @@
-#include "TrieTree.h"
+#include "trieTree.h"
 #include "user.h"
 using namespace std;
 struct TrieNode* root = getNode();

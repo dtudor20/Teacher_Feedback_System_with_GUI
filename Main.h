@@ -4,9 +4,14 @@
 #pragma once
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include "TrieTree.h"
+#include "trieTree.h"
 #include "teacher.h"
-#include "TextButton.h"
-#include "Button.h"
+#include "studentUser.h"
+#include "teacherUser.h"
+#include "adminUser.h"
+
+#include "textButton.h"
+#include "button.h"
+extern int nr_teachers;
 extern sf::RenderWindow window;
 // TODO: Reference additional headers your program requires here.
