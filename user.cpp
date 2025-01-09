@@ -246,6 +246,7 @@ void GUEST_USER::menu() {
         if (logInButton.is_selected || searchTeacherButton.is_selected)
             break;
         window.clear(sf::Color::Black);
+        window.draw(guest);
         logInButton.draw(window);
         searchTeacherButton.draw(window);
         window.display();

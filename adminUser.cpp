@@ -19,6 +19,7 @@ void ADMIN_USER::menu() {
         if (logOutButton.is_selected || searchTeacherButton.is_selected || seeReviewsButton.is_selected || deleteTeacherButton.is_selected)
             break;
         window.clear(sf::Color::Black);
+        window.draw(admin);
         logOutButton.draw(window);
         searchTeacherButton.draw(window);
         seeReviewsButton.draw(window);

@@ -2,7 +2,7 @@
 
 using namespace std;
 int nr_teachers = 0;
-sf::RenderWindow window(sf::VideoMode(800, 1000), "SFML Window");
+sf::RenderWindow window(sf::VideoMode(800, 800), "TeacherFeedbackSystem");
 
 int main()
 {

@@ -17,6 +17,7 @@ void STUDENT_USER::menu() {
         if (logOutButton.is_selected || searchTeacherButton.is_selected || seeReviewsButton.is_selected)
             break;
         window.clear(sf::Color::Black);
+        window.draw(student);
         logOutButton.draw(window);
         searchTeacherButton.draw(window);
         seeReviewsButton.draw(window);
