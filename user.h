@@ -1,5 +1,6 @@
 #pragma once
 #include "teacher.h"
+#include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string>
 using namespace std;
@@ -17,6 +18,10 @@ public:
     GUEST_USER& operator=(const GUEST_USER& other);
     void start() { menu(); }
     void log();
+
+    static void log_in(sf::Event,GUEST_USER*);
+    static void create_account(sf::Event,string);
+
     static TEACHER* search_teacher(string name);
     static int nr_users;
     virtual ~GUEST_USER() {};
@@ -51,6 +56,8 @@ public:
         nr_user_reviews = 0;
         user_reviews = nullptr;
     }
+    void search(sf::Event);
+    void see_reviews();
     REVIEW* user_reviews;
     int nr_user_reviews;
 private:
